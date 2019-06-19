@@ -17,17 +17,19 @@
       <param name="MODE" value="1"/>
       <param name="lower_h" value="0"/>
       <param name="lower_s" value="100"/>
-      <param name="lower_v" value="50"/>
-      <param name="higher_h" value="20"/>
+      <param name="lower_v" value="100"/>
+      <param name="higher_h" value="15"/>
       <param name="higher_s" value="255"/>
       <param name="higher_v" value="255"/>
-      <param name="lower_h_b" value="165"/>
+      <param name="lower_h_b" value="170"/>
       <param name="lower_s_b" value="100"/>
-      <param name="lower_v_b" value="50"/>
+      <param name="lower_v_b" value="100"/>
       <param name="higher_h_b" value="180"/>
       <param name="higher_s_b" value="255"/>
       <param name="higher_v_b" value="255"/>
     </node>
   </group>
-  <!--node pkg="jetbot_soccer" type="jetbot_soccer.py" name="jetbot_soccer" output="screen"/-->
+  <node pkg="jetbot_soccer" type="jetbot_imu.py" name="jetbot_imu" output="screen"/>
+  <node pkg="mavros" type="mavros_node" name="mavros" args="_fcu_url:=/dev/ttyACM0:921600" output="screen"/>
+  <node pkg="jetbot_imu" type="control_jetbot_imu.py" name="control_jetbot_imu" output="screen"/>
 </launch>

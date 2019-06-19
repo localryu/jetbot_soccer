@@ -21,7 +21,7 @@ class CAM:
 
 
     def make_folder_img(self):
-	saving_folder = "/home/jetbot/img_test"
+	saving_folder = "/home/ryu/img_test"
 	local_folder = time.localtime()
 	local_folder = "%04d-%02d-%02d-%02d:%02d:%02d" % (local_folder.tm_year, local_folder.tm_mon, local_folder.tm_mday, local_folder.tm_hour, local_folder.tm_min, local_folder.tm_sec)
 	self.location = saving_folder+local_folder

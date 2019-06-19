@@ -48,25 +48,23 @@ def all_stop():
 	motor_right.run(Adafruit_MotorHAT.RELEASE)
 
 def motors(De, Sp):
-	Degree = De/370 # positive : forward, negative : backward
+	Degree = De # positive : forward, negative : backward
 	Speed = Sp # positive : right, negative : left 
-	#print("Degree : %f  Speed : %f "% (Degree/370, Speed))
-	Left_Gain = 0.79
-	Right_Gain = 0.85
+	print("Degree : %f  Speed : %f "% (Degree/370, Speed))
 	
-	if Degree <= 20 and Degree >= -20 :	
-		set_speed(motor_left_ID,   Speed * -0.70)
-		set_speed(motor_right_ID,   Speed * -1.0)
-		#print("Goahead : %f, %f" % (Speed * -0.78, Speed * -1.0))
-	elif Degree > 20 :
-		set_speed(motor_left_ID,  (Degree/370)*-1.0)
-		set_speed(motor_right_ID,  (Degree/370)*1.0) 
-		#print("Left : %f, %f"%((Degree/370)*-1.0, (Degree/370)*1.0))
+	if Degree <= 70 and Degree >= -70 :	
+#		set_speed(motor_left_ID,   Speed * 1.0)
+#		set_speed(motor_right_ID,   Speed * 1.0)
+		print("Goahead : %f, %f" % (Speed * 1.0, Speed * 1.0))
+	elif Degree > 70 :
+#		set_speed(motor_left_ID,  (Degree/370)*1.0 )
+#		set_speed(motor_right_ID,  (Degree/370)*(-1.0) ) 
+		print("Left : %f, %f"%(-((Degree/370)*(-1.0) ), -(Degree/370)*1.0))
 
 	else :
-		set_speed(motor_left_ID,   (Degree/370)*1.0)
-		set_speed(motor_right_ID, (Degree/370)*-1.0) 
-		#print("Right : %f, %f" % ((Degree/370)*1.0, (Degree/370)*-1.0))
+#		set_speed(motor_left_ID,  (Degree/370)*(-1.0) )
+#		set_speed(motor_right_ID, (Degree/370)*1.0 ) 
+		print("Right : %f, %f" % (-((Degree/370)*1.0 ), -((Degree/370)*(-1.0) )))
 
 	
 
@@ -121,7 +119,7 @@ def play() :
 			Speed = 1;
 			#Speed = ((360 - Bbox_y)/360);
 			motors(Degree, Speed)
-			if Gbox_h > 300:
+			if Gbox_h > 230:
 				#print('GOAL DETECT')
 				go2goal = True
 		else:
@@ -129,7 +127,7 @@ def play() :
 			goal_cnt = goal_cnt + 1
 			motors(0, 0)
 			rospy.sleep(3.0)
-			if goal_cnt > 3:
+			if goal_cnt > 1:
 				finish = True
 			else : 
 				go2ball = False
@@ -156,7 +154,7 @@ if __name__ == '__main__':
 
 	# stop the motors as precaution
 	all_stop()
-	rospy.sleep(4.0)
+	rospy.sleep(5.0)
 
 	while 1:
 		play()
