@@ -1,3 +1,0 @@
-[submodule "jetbot_imu"]
-	path = jetbot_imu
-	url = https://github.com/localryu/jetbot_imu.git
