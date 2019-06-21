@@ -63,7 +63,7 @@ def motors(De, Sp):
 	print("Degree : %f  Speed : %f "% (Degree/368, Speed))
 	Degree = Degree/368
 	if abs(Degree) <= 0.18 :	
-		set_speed(motor_left_ID,   Speed * 0.99)
+		set_speed(motor_left_ID,   Speed * 1.0)
 		set_speed(motor_right_ID,   Speed * 1.0)
 		print("Goahead : %f, %f" % (Speed * 1.0, Speed * 1.0))
 	elif Degree > 0.18 :
@@ -72,8 +72,8 @@ def motors(De, Sp):
 		print("Left : %f, %f"%(-(Degree*(-1.0) ), -Degree*1.0))
 
 	else :
-		set_speed(motor_left_ID,  Degree*(-1.4) )
-		set_speed(motor_right_ID, Degree*1.4 ) 
+		set_speed(motor_left_ID,  Degree*(-1.2) )
+		set_speed(motor_right_ID, Degree*1.2 ) 
 		print("Right : %f, %f" % (-(Degree*1.4 ), -(Degree*(-1.4) )))
 
 	
@@ -116,8 +116,8 @@ def play() :
 	#print('BALL : %d %d GOAL : %d %d' %(Bbox_x, Bbox_y, Gbox_x, Gbox_y))
 	if go2ball == False:
 		if Bbox_x == 640 :
-			motor(0,0.5)
-			rospy.sleep(0.2)
+			motors(0,0.5)
+			rospy.sleep(0.1)
 		else :
 			Degree = (Bbox_x - 272)
 			#Speed = ((360 - Bbox_y)/360);
@@ -133,10 +133,10 @@ def play() :
 			Speed = 1;
 			#Speed = ((360 - Bbox_y)/360);
 			motors(Degree, Speed)
-			if Gbox_h > 250:
+			if Gbox_h > 310:
 				print('GOAL DETECT')
-				motors(0,1)
-				rospy.sleep(0.5)
+				#motors(0,1)
+				#rospy.sleep(0.2)
 				go2goal = True
 		else:
 			print('GOAL')
