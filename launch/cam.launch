@@ -3,10 +3,10 @@
   <group ns="goalpost">
     <node pkg="jetbot_soccer" type="color_filter.py" name="goalpost_detector" output="screen">
       <param name="MODE" value="2"/>
-      <param name="lower_h" value="100"/>
-      <param name="lower_s" value="150"/>
-      <param name="lower_v" value="100"/>
-      <param name="higher_h" value="120"/>
+      <param name="lower_h" value="90"/>
+      <param name="lower_s" value="90"/>
+      <param name="lower_v" value="50"/>
+      <param name="higher_h" value="150"/>
       <param name="higher_s" value="255"/>
       <param name="higher_v" value="200"/>
     </node>
@@ -16,14 +16,14 @@
     <node pkg="jetbot_soccer" type="color_filter.py" name="ball_detector" output="screen">
       <param name="MODE" value="1"/>
       <param name="lower_h" value="0"/>
-      <param name="lower_s" value="100"/>
-      <param name="lower_v" value="50"/>
+      <param name="lower_s" value="150"/>
+      <param name="lower_v" value="90"/>
       <param name="higher_h" value="20"/>
       <param name="higher_s" value="255"/>
       <param name="higher_v" value="255"/>
-      <param name="lower_h_b" value="165"/>
+      <param name="lower_h_b" value="170"/>
       <param name="lower_s_b" value="100"/>
-      <param name="lower_v_b" value="50"/>
+      <param name="lower_v_b" value="100"/>
       <param name="higher_h_b" value="180"/>
       <param name="higher_s_b" value="255"/>
       <param name="higher_v_b" value="255"/>

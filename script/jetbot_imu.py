@@ -55,13 +55,13 @@ def play() :
 	global finish
 	global goal_cnt
 
-	#print('go2ball: %s ' %(go2ball))
+	print('go2ball: %s go2goal: %s' %(go2ball,go2goal))
 	#print('BALL : %d %d GOAL : %d %d' %(Bbox_x, Bbox_y, Gbox_x, Gbox_y))
 	if go2ball == False:
 		Degree = -1*math.atan((270 - Bbox_x)/(360 - Bbox_y))
 		#print('Degree : %f' %(Degree))
 		#Speed = ((360 - Bbox_y)/360);
-		Speed = 0.7;
+		Speed = 1.0;
 		str_cmd = str(Degree) + ',' + str(Speed)
 		cmd_pub.publish(str_cmd)
 		if Bbox_y > 300:
@@ -73,7 +73,7 @@ def play() :
                 #print("GOALPOST_H : %d" %(Gbox_h))
 		if go2goal == False:
 			Degree = -1*math.atan((270 - Bbox_x)/(360 - Bbox_y))
-			Speed = 0.7;
+			Speed = 1.0;
 			str_cmd = str(Degree) + ',' + str(Speed)
 			cmd_pub.publish(str_cmd)
 			if Gbox_h > 300:
@@ -122,7 +122,7 @@ if __name__ == '__main__':
 	while 1:
 		if flag == 1:
 			play()
-			#print("finish : %s"% (finish))
+			print("finish : %s"% (finish))
 			flag = 0
 			if finish == True:
 				break

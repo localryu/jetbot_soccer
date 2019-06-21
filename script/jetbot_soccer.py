@@ -2,6 +2,8 @@
 import rospy
 import time
 import math
+import signal
+import sys
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT
 from std_msgs.msg import String
@@ -17,6 +19,14 @@ go2ball = False
 go2goal = False
 finish = False
 goal_cnt = 0
+
+
+def signal_handler(signal,frame):
+	print('pressed ctrl + c!!!')
+	motor_left.run(Adafruit_MotorHAT.RELEASE)
+	motor_right.run(Adafruit_MotorHAT.RELEASE)
+	sys.exit(0)
+signal.signal(signal.SIGINT,signal_handler)
 
 # sets motor speed between [-1.0, 1.0]
 def set_speed(motor_ID, value):
@@ -50,21 +60,21 @@ def all_stop():
 def motors(De, Sp):
 	Degree = De # positive : forward, negative : backward
 	Speed = Sp # positive : right, negative : left 
-	print("Degree : %f  Speed : %f "% (Degree/370, Speed))
-	
-	if Degree <= 70 and Degree >= -70 :	
-#		set_speed(motor_left_ID,   Speed * 1.0)
-#		set_speed(motor_right_ID,   Speed * 1.0)
+	print("Degree : %f  Speed : %f "% (Degree/368, Speed))
+	Degree = Degree/368
+	if abs(Degree) <= 0.18 :	
+		set_speed(motor_left_ID,   Speed * 0.99)
+		set_speed(motor_right_ID,   Speed * 1.0)
 		print("Goahead : %f, %f" % (Speed * 1.0, Speed * 1.0))
-	elif Degree > 70 :
-#		set_speed(motor_left_ID,  (Degree/370)*1.0 )
-#		set_speed(motor_right_ID,  (Degree/370)*(-1.0) ) 
-		print("Left : %f, %f"%(-((Degree/370)*(-1.0) ), -(Degree/370)*1.0))
+	elif Degree > 0.18 :
+		set_speed(motor_left_ID,  Degree*(-1.0) )
+		set_speed(motor_right_ID,  Degree*1.0 ) 
+		print("Left : %f, %f"%(-(Degree*(-1.0) ), -Degree*1.0))
 
 	else :
-#		set_speed(motor_left_ID,  (Degree/370)*(-1.0) )
-#		set_speed(motor_right_ID, (Degree/370)*1.0 ) 
-		print("Right : %f, %f" % (-((Degree/370)*1.0 ), -((Degree/370)*(-1.0) )))
+		set_speed(motor_left_ID,  Degree*(-1.4) )
+		set_speed(motor_right_ID, Degree*1.4 ) 
+		print("Right : %f, %f" % (-(Degree*1.4 ), -(Degree*(-1.4) )))
 
 	
 
@@ -105,22 +115,28 @@ def play() :
 	print('go2ball: %s go2goal : %s' %(go2ball, go2goal))
 	#print('BALL : %d %d GOAL : %d %d' %(Bbox_x, Bbox_y, Gbox_x, Gbox_y))
 	if go2ball == False:
-		Degree = (Bbox_x - 270)
-		#Speed = ((360 - Bbox_y)/360);
-		Speed = 1;		
-		motors(Degree, Speed)
-		if Bbox_y > 300:
-			#print('BALL DETECT')
-			go2ball = True
+		if Bbox_x == 640 :
+			motor(0,0.5)
+			rospy.sleep(0.2)
+		else :
+			Degree = (Bbox_x - 272)
+			#Speed = ((360 - Bbox_y)/360);
+			Speed = 1;		
+			motors(Degree, Speed)
+			if Bbox_y > 260:
+				#print('BALL DETECT')
+				go2ball = True
 	else:
                 #print("GOALPOST_H : %d" %(Gbox_h))
 		if go2goal == False:
-			Degree = (Gbox_x - 270)
+			Degree = (Gbox_x - 272)
 			Speed = 1;
 			#Speed = ((360 - Bbox_y)/360);
 			motors(Degree, Speed)
-			if Gbox_h > 230:
-				#print('GOAL DETECT')
+			if Gbox_h > 250:
+				print('GOAL DETECT')
+				motors(0,1)
+				rospy.sleep(0.5)
 				go2goal = True
 		else:
 			print('GOAL')
@@ -155,12 +171,13 @@ if __name__ == '__main__':
 	# stop the motors as precaution
 	all_stop()
 	rospy.sleep(5.0)
-
+	r=rospy.Rate(10)
 	while 1:
 		play()
 		print("finish : %s"% (finish))
 		if finish == True:
 			break
+		r.sleep()
 	
 
 

@@ -91,7 +91,8 @@ class image_converter:
                     bounding_box_msg.size_x = int(w)
                     bounding_box_msg.size_y = int(h)
 
-                    self.bounding_box_pub.publish(bounding_box_msg)
+                    if bounding_box_msg.center.x > 60 and bounding_box_msg.center.x < 580 :
+                        self.bounding_box_pub.publish(bounding_box_msg)
             self.image_pub.publish(self.bridge.cv2_to_imgmsg(mask, "mono8"))
 
         except CvBridgeError as e:
